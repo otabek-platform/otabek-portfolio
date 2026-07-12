@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Джумаев Отабек — CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a2e;
+            --text-muted: #555566;
+            --accent: #d92626;
+            --border: #e2e2e8;
+            --surface: #f8f8fa;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--text);
+            margin-bottom: 1.5rem;
+        }
+        .header-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+        }
+        .header-info h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .header-info .role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .header-info .summary {
+            margin-top: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            max-width: 500px;
+        }
+
+        /* Contact bar */
+        .contact-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+        }
+        .contact-bar span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-muted);
+        }
+        .contact-bar strong { color: var(--text); }
+
+        /* Sections */
+        .section { margin-bottom: 1.5rem; }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        /* Experience */
+        .job { margin-bottom: 1.2rem; }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .job-title {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .job-company {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .job-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .job-desc {
+            margin-top: 0.4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .job-list {
+            margin-top: 0.4rem;
+            padding-left: 1.2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .job-list li { margin-bottom: 0.2rem; }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .skill-category h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+        .skill-category p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Projects */
+        .project { margin-bottom: 1rem; }
+        .project-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .project-tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-left: 0.5rem;
+        }
+        .project-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        /* Education */
+        .edu-item { margin-bottom: 0.8rem; }
+        .edu-item h4 { font-size: 0.95rem; font-weight: 600; }
+        .edu-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Print */
+        @media print {
+            body { padding: 20px; }
+            .no-print { display: none; }
+            a { text-decoration: none; color: var(--text); }
+        }
+
+        @media (max-width: 600px) {
+            .header { flex-direction: column; text-align: center; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .job-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="profile.png" alt="Джумаев Отабек" class="header-photo">
+        <div class="header-info">
+            <h1>Джумаев Отабек</h1>
+            <div class="role">Senior Full Stack Developer | Software Architect</div>
+            <div class="summary">
+                5+ лет создания масштабируемых веб-приложений и распределённых систем. 
+                Эксперт в микросервисной архитектуре, AI-интеграциях и high-load решениях. 
+                Фокус на чистом коде, производительности и надёжности.
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-bar">
+        <span>📍 <strong>Москва, Россия</strong></span>
+        <span>📧 <strong>otabek.platform@gmail.com</strong></span>
+        <span>📱 <strong>+992 02 880 7776</strong></span>
+        <span>🔗 <strong>github.com/otabek-platform</strong></span>
+        <span>💼 <strong>otabekportfolio.vercel.app</strong></span>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Опыт работы</div>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Senior Full Stack Developer</span>
+                    <span class="job-company">@ TechCorp Solutions</span>
+                </div>
+                <span class="job-date">2023 — наст. время</span>
+            </div>
+            <ul class="job-list">
+                <li>Спроектировал микросервисную архитектуру платформы с нагрузкой 100K+ RPS, снизив latency на 40%</li>
+                <li>Внедрил event-driven паттерн (Kafka + CQRS) для обработки 2M+ событий/день</li>
+                <li>Руководил командой из 4 разработчиков, внедрил CI/CD pipeline с 95% покрытием тестами</li>
+                <li>Разработал AI-ассистента для автоматизации code review, сократив время ревью на 30%</li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Full Stack Developer</span>
+                    <span class="job-company">@ Digital Agency Pro</span>
+                </div>
+                <span class="job-date">2021 — 2023</span>
+            </div>
+            <ul class="job-list">
+                <li>Разработал 15+ production-приложений на React/Next.js + Node.js для клиентов из e-commerce и fintech</li>
+                <li>Оптимизировал PostgreSQL-запросы, сократив время отклика API с 800ms до 45ms</li>
+                <li>Внедрил Docker + Kubernetes для деплоя, сократив время релиза с 2 дней до 15 минут</li>
+                <li>Создал reusable UI-kit, ускоривший разработку новых проектов на 25%</li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <div class="job-header">
+                <div>
+                    <span class="job-title">Junior Developer</span>
+                    <span class="job-company">@ StartUp Studio</span>
+                </div>
+                <span class="job-date">2019 — 2021</span>
+            </div>
+            <ul class="job-list">
+                <li>Разработал frontend-часть SaaS-платформы для аналитики данных (React, D3.js, WebSocket)</li>
+                <li>Интегрировал REST и GraphQL API, настроил аутентификацию OAuth 2.0 / JWT</li>
+                <li>Участвовал в миграции legacy-кода на TypeScript, повысив типобезопасность проекта</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Ключевые навыки</div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>Frontend</h4>
+                <p>React, Next.js, TypeScript, Tailwind, Three.js, WebGL</p>
+            </div>
+            <div class="skill-category">
+                <h4>Backend</h4>
+                <p>Node.js, Python, Go, PostgreSQL, Redis, GraphQL</p>
+            </div>
+            <div class="skill-category">
+                <h4>DevOps</h4>
+                <p>Docker, Kubernetes, AWS, Terraform, CI/CD, Prometheus</p>
+            </div>
+            <div class="skill-category">
+                <h4>AI & Data</h4>
+                <p>OpenAI API, LangChain, RAG, Vector DB, TensorFlow</p>
+            </div>
+            <div class="skill-category">
+                <h4>Architecture</h4>
+                <p>Microservices, CQRS, Event Sourcing, DDD, Clean Architecture</p>
+            </div>
+            <div class="skill-category">
+                <h4>Soft Skills</h4>
+                <p>Team Lead, Code Review, Mentoring, Agile/Scrum, Tech Writing</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Избранные проекты</div>
+        <div class="project">
+            <span class="project-name">HighLoad E-Commerce Platform</span>
+            <span class="project-tech">[Go, Kafka, PostgreSQL, K8s]</span>
+            <div class="project-desc">Микросервисный маркетплейс с event-driven архитектурой. 100K+ RPS, 99.99% uptime.</div>
+        </div>
+        <div class="project">
+            <span class="project-name">AI Code Assistant</span>
+            <span class="project-tech">[TypeScript, LangChain, Vector DB, OpenAI]</span>
+            <div class="project-desc">VS Code extension с RAG-архитектурой для контекстного автодополнения на основе codebase.</div>
+        </div>
+        <div class="project">
+            <span class="project-name">Real-time Analytics Dashboard</span>
+            <span class="project-tech">[React, D3.js, Node.js, ClickHouse, WebSocket]</span>
+            <div class="project-desc">Дашборд для мониторинга бизнес-метрик в реальном времени с кастомными визуализациями.</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Образование</div>
+        <div class="edu-item">
+            <h4>Московский государственный технический университет им. Н.Э. Баумана</h4>
+            <p>Специалитет «Информатика и вычислительная техника» | 2015 — 2019</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Сертификаты</div>
+        <div class="edu-item">
+            <p>AWS Certified Solutions Architect — Associate | 2024</p>
+            <p>Google Professional Cloud Developer | 2023</p>
+            <p>TensorFlow Developer Certificate | 2023</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Open Source</div>
+        <p style="font-size:0.9rem; color:var(--text-muted);">
+            20+ контрибуций в проекты с 5K+ stars. Активный мейнтейнер библиотеки для React-анимаций (npm: 50K+ downloads/неделю). 
+            Регулярно пишу технические статьи на Medium и Habr (15K+ подписчиков).
+        </p>
+    </div>
+
+    <div class="no-print" style="margin-top:2rem; text-align:center;">
+        <button onclick="window.print()" style="padding:0.8rem 2rem; background:var(--accent); color:#fff; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-family:inherit;">
+            🖨️ Сохранить как PDF
+        </button>
+    </div>
+</body>
+</html>
