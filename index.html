@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Джумаев Отабек — Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface-light: #1a1a25;
+            --text: #e2e2e8;
+            --text-muted: #888899;
+            --accent: #ff2a2a;
+            --accent-glow: rgba(255, 42, 42, 0.15);
+            --border: #2a2a3a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        ::selection { background: var(--accent); color: #fff; }
+
+        /* Animated background grid */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,42,42,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,42,42,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 2rem 4rem;
+        }
+        .hero-container {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+        .hero-content h1 span {
+            color: var(--accent);
+            text-shadow: 0 0 40px var(--accent-glow);
+        }
+        .hero-content .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .hero-content .desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(255,42,42,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255,42,42,0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        .hero-image img {
+            width: 380px;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 60px rgba(255,42,42,0.2), 0 0 120px rgba(255,42,42,0.1);
+            position: relative;
+            z-index: 2;
+        }
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,42,42,0.2);
+            animation: pulse 3s infinite;
+        }
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            width: 460px; height: 460px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,42,42,0.1);
+            animation: pulse 3s infinite 1.5s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0; }
+        }
+
+        .typing-effect {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .section-title span { color: var(--accent); }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+            font-size: 1.1rem;
+        }
+
+        /* About */
+        .about-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            font-weight: 800;
+        }
+        .stat-card p { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; }
+
+        /* Skills */
+        .skills-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        .skill-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 40px rgba(255,42,42,0.08);
+        }
+        .skill-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .skill-card h3 .icon {
+            width: 40px; height: 40px;
+            background: var(--accent-glow);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .skill-tag {
+            background: var(--surface-light);
+            color: var(--text);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid var(--border);
+        }
+
+        /* Projects */
+        .projects-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 60px rgba(255,42,42,0.1);
+        }
+        .project-header {
+            padding: 2rem 2rem 1rem;
+        }
+        .project-header h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .project-header p { color: var(--text-muted); font-size: 0.95rem; }
+        .project-tags {
+            padding: 0 2rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .project-tag {
+            background: var(--accent-glow);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .project-links {
+            padding: 0 2rem 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .project-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.3s;
+        }
+        .project-links a:hover { color: var(--accent); }
+
+        /* Contact */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .contact-link {
+            width: 60px; height: 60px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255,42,42,0.15);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-image img { width: 280px; height: 280px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">&lt;Dev/&gt;</a>
+            <ul class="nav-links">
+                <li><a href="#about">Обо мне</a></li>
+                <li><a href="#skills">Навыки</a></li>
+                <li><a href="#projects">Проекты</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <p class="subtitle">&gt; const developer = new FullStack();</p>
+                <h1>Привет, я <span>Джумаев Отабек</span></h1>
+                <p class="desc">Full Stack Developer & Software Architect. Создаю масштабируемые веб-приложения, высоконагруженные системы и AI-интеграции. 5+ лет превращаю идеи в production-ready код.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">Смотреть проекты</a>
+                    <a href="resume.html" class="btn btn-secondary" download>Скачать CV</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="profile.png" alt="Джумаев Отабек — Full Stack Developer">
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-grid">
+            <div>
+                <h2 class="section-title" style="text-align:left;">Обо <span>мне</span></h2>
+                <p style="color:var(--text-muted); margin:1.5rem 0; font-size:1.05rem; line-height:1.8;">
+                    Я — результат-oriented разработчик с фокусом на чистый код, архитектуру и производительность. Специализируюсь на распределённых системах, микросервисах и AI-интеграциях. 
+                    <br><br>
+                    Верю, что хороший код — это не тот, который работает, а тот, который понятен, тестируем и масштабируем. Постоянно изучаю новые технологии и делюсь знаниями через open-source и менторство.
+                </p>
+                <a href="#contact" class="btn btn-primary">Связаться</a>
+            </div>
+            <div class="about-stats">
+                <div class="stat-card">
+                    <h3>5+</h3>
+                    <p>Лет опыта</p>
+                </div>
+                <div class="stat-card">
+                    <h3>50+</h3>
+                    <p>Проектов</p>
+                </div>
+                <div class="stat-card">
+                    <h3>20+</h3>
+                    <p>Open-source<br>контрибуций</p>
+                </div>
+                <div class="stat-card">
+                    <h3>99.9%</h3>
+                    <p>Uptime продакшена</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" style="background:var(--surface);">
+        <h2 class="section-title">Технический <span>стек</span></h2>
+        <p class="section-subtitle">Инструменты и технологии, которые я использую ежедневно</p>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3><span class="icon">⚡</span> Frontend</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Next.js</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">Tailwind CSS</span>
+                    <span class="skill-tag">Three.js</span>
+                    <span class="skill-tag">WebGL</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3><span class="icon">🖥</span> Backend</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Go</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">Redis</span>
+                    <span class="skill-tag">GraphQL</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3><span class="icon">☁</span> DevOps & Cloud</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Kubernetes</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Terraform</span>
+                    <span class="skill-tag">CI/CD</span>
+                    <span class="skill-tag">Prometheus</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3><span class="icon">🤖</span> AI & Data</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">OpenAI API</span>
+                    <span class="skill-tag">LangChain</span>
+                    <span class="skill-tag">TensorFlow</span>
+                    <span class="skill-tag">Pandas</span>
+                    <span class="skill-tag">Vector DB</span>
+                    <span class="skill-tag">RAG</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Избранные <span>проекты</span></h2>
+        <p class="section-subtitle">Реальные проекты с production-нагрузкой</p>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>HighLoad E-Commerce Platform</h3>
+                    <p>Микросервисная платформа для маркетплейса с 100K+ RPS. Event-driven архитектура, CQRS, распределённые транзакции.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">Go</span>
+                    <span class="project-tag">Kafka</span>
+                    <span class="project-tag">PostgreSQL</span>
+                    <span class="project-tag">Kubernetes</span>
+                </div>
+                <div class="project-links">
+                    <a href="#">🔗 Live Demo</a>
+                    <a href="#">⭐ GitHub</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>AI Code Assistant</h3>
+                    <p>VS Code extension с RAG-архитектурой для контекстного автодополнения кода на основе codebase компании.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">TypeScript</span>
+                    <span class="project-tag">LangChain</span>
+                    <span class="project-tag">Vector DB</span>
+                    <span class="project-tag">OpenAI</span>
+                </div>
+                <div class="project-links">
+                    <a href="#">🔗 Live Demo</a>
+                    <a href="#">⭐ GitHub</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>Real-time Analytics Dashboard</h3>
+                    <p>Дашборд для мониторинга бизнес-метрик в реальном времени. WebSocket, агрегация потоковых данных, кастомные визуализации.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="project-tag">React</span>
+                    <span class="project-tag">D3.js</span>
+                    <span class="project-tag">Node.js</span>
+                    <span class="project-tag">ClickHouse</span>
+                </div>
+                <div class="project-links">
+                    <a href="#">🔗 Live Demo</a>
+                    <a href="#">⭐ GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="background:var(--surface);">
+        <div class="contact-container">
+            <h2 class="section-title">Давайте <span>работать</span> вместе</h2>
+            <p class="section-subtitle">Открыт для сложных проектов, консультаций и коллабораций</p>
+            <a href="mailto:otabek.platform@gmail.com" class="btn btn-primary" style="font-size:1.1rem; padding:1rem 3rem;">otabek.platform@gmail.com</a>
+            <div class="contact-links">
+                <a href="#" class="contact-link" title="GitHub">GH</a>
+                <a href="#" class="contact-link" title="LinkedIn">in</a>
+                <a href="#" class="contact-link" title="Telegram">TG</a>
+                <a href="#" class="contact-link" title="Twitter">X</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Джумаев Отабек. Built with passion & clean code.</p>
+    </footer>
+
+    <script>
+        // Typing effect
+        const text = "Full Stack Developer | Software Architect | Open Source Contributor";
+        const typingElement = document.querySelector('.subtitle');
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                typingElement.innerHTML = "> " + text.substring(0, i+1) + "<span style='animation:blink 1s infinite'>|</span>";
+                i++;
+                setTimeout(type, 50);
+            } else {
+                typingElement.innerHTML = "> " + text;
+            }
+        }
+        setTimeout(type, 500);
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.stat-card, .skill-card, .project-card').forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
